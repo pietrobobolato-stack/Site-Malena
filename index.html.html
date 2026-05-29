@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Presentinho Nerd</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    font-family:Arial,sans-serif;
+    overflow:hidden;
+}
+
+.page{
+    width:100vw;
+    height:100vh;
+    display:none;
+    position:relative;
+}
+
+.page.active{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+
+#stars,#hearts{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    box-shadow:0 0 6px white;
+    animation:twinkle 2s infinite alternate;
+}
+
+.heart{
+    position:absolute;
+    color:#ff4f8b;
+    animation:float 8s linear infinite;
+    font-size:20px;
+}
+
+@keyframes twinkle{
+    from{opacity:.2}
+    to{opacity:1}
+}
+
+@keyframes float{
+    from{transform:translateY(100vh)}
+    to{transform:translateY(-10vh)}
+}
+
+.matrix{
+    position:absolute;
+    inset:0;
+    display:grid;
+    grid-template-columns:repeat(70,1fr);
+    font-size:18px;
+    color:#ffd1df33;
+    line-height:1;
+    font-weight:bold;
+}
+
+.matrix span{
+    transition:all .3s ease;
+}
+
+.matrix span.highlight{
+    color:#ffe3ee;
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #ffd6e7,
+        0 0 20px #ffb6cf,
+        0 0 30px #ff9fc1;
+}
+
+.bigText{
+    position:absolute;
+    z-index:2;
+    color:#f3b6cb;
+    text-shadow:0 0 15px #f3b6cb;
+    text-align:center;
+}
+
+.count{
+    font-size:220px;
+}
+
+.parabens{
+    font-size:100px;
+}
+
+.play{
+    position:absolute;
+    right:20px;
+    top:20px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#111;
+    border:1px solid #333;
+    color:#fff;
+    cursor:pointer;
+}
+
+.cat{
+    font-size:120px;
+    margin-bottom:20px;
+    animation:bob 2s infinite;
+}
+
+@keyframes bob{
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+.cake{
+    font-size:70px;
+}
+
+.letter{
+    background:#f5f1f1;
+    color:#b77b5a;
+    border-radius:20px;
+    padding:30px;
+    max-width:600px;
+    text-align:center;
+    cursor:pointer;
+    box-shadow:0 0 25px #ff4f8b44;
+}
+
+.photo{
+    margin-top:30px;
+    border-radius:10px;
+    max-width:570px;
+    width:90%;
+    display:none;
+}
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div id="hearts"></div>
+
+<!-- Página 1 -->
+<div id="p1" class="page active">
+    <div class="matrix" id="matrix1"></div>
+    <div class="bigText count" id="count">3</div>
+</div>
+
+<!-- Página 2 -->
+<div id="p2" class="page">
+    <div class="matrix" id="matrix2"></div>
+    <div class="bigText parabens">
+        Parabensss 💖💖💖
+    </div>
+    <button class="play" onclick="nextPage()">▶</button>
+</div>
+
+<!-- Página 3 -->
+<div id="p3" class="page">
+    <button class="play" onclick="nextPage()">▶</button>
+    <div class="cat">🐱🐱</div>
+    <div class="cake">🎂</div>
+</div>
+
+<!-- Página 4 -->
+<div id="p4" class="page">
+    <button class="play" onclick="showPhoto()">▶</button>
+
+    <div class="letter" onclick="showPhoto()">
+        <h2>Parabéns Princesa💖</h2>
+        <br>
+        <p>
+            É engraçado como uma pessoa chegam de repente, e acabam trazendo leveza, risada e uma sensação boa que faz diferença nos meus dias. 
+            <br>
+            Você é uma mulher incrivel demais. Seu jeitinho me faz rir todos os dias igual um idiota, e passar o tempo com você é surpreendentemente bom. Espero que você sempre conquiste o que deseja, faça muitas comprinhas na shein, consiga um salsichinha, e que seja sempre essa pessoa cheia de alegria e com esse brilho que você tem .<br>
+             Voce merece o mundo sempre. 💖 
+        </p>
+    </div>
+
+    <img
+        class="photo"
+        id="photo"
+        src="tenis.jpg"
+        width="300"
+        height="400"
+    >
+</div>
+
+<!-- Página 5 -->
+<div id="p5" class="page">
+    <div class="letter">
+        <h2>Esse é meu presentin >.< 🎁</h2>
+        <br>
+        <p>O MELHOR PRESENTE DE TODOS:</p>
+
+        <div style="
+            margin-top:20px;
+            padding:20px;
+            background:#fff;
+            border:2px dashed #d88;
+            border-radius:12px;
+            color:#b55;
+            font-size:28px;
+            font-weight:bold;
+            letter-spacing:3px;
+        ">
+            Vale Bundinha
+        </div>
+    </div>
+</div>
+
+<script>
+let current=1;
+
+function show(id){
+    document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+    document
+    .getElementById("p"+id)
+    .classList.add("active");
+}
+
+function nextPage(){
+    current++;
+    if(current<=5){
+        show(current);
+    }
+}
+
+function showPhoto(){
+    document.getElementById("photo").style.display="block";
+
+    setTimeout(()=>{
+        current=5;
+        show(5);
+    },2500);
+}
+
+/* CONTAGEM AUTOMÁTICA */
+let c=3;
+const el=document.getElementById("count");
+
+const timer=setInterval(()=>{
+    c--;
+
+    if(c>0){
+        el.textContent=c;
+    }else{
+        clearInterval(timer);
+        show(2);
+        current=2;
+    }
+},1000);
+
+/* MATRIX */
+const chars="HAPPYBIRTHDAY";
+
+function createMatrix(id){
+    const m=document.getElementById(id);
+
+    for(let i=0;i<3500;i++){
+        let s=document.createElement("span");
+
+        let ch=
+        chars[
+            Math.floor(
+                Math.random()*chars.length
+            )
+        ];
+
+        s.textContent=ch;
+
+        if(Math.random()>.85){
+            s.classList.add("highlight");
+        }
+
+        m.appendChild(s);
+    }
+}
+
+createMatrix("matrix1");
+createMatrix("matrix2");
+
+/* NEON TROCANDO */
+setInterval(()=>{
+    const letters=document.querySelectorAll(".matrix span");
+
+    letters.forEach(letter=>{
+        letter.classList.remove("highlight");
+    });
+
+    for(let i=0;i<250;i++){
+        let random=
+        letters[
+            Math.floor(
+                Math.random()*letters.length
+            )
+        ];
+
+        random.classList.add("highlight");
+    }
+
+},350);
+
+/* ESTRELAS */
+for(let i=0;i<120;i++){
+    let st=document.createElement("div");
+
+    st.className="star";
+    st.style.left=Math.random()*100+"%";
+    st.style.top=Math.random()*100+"%";
+    st.style.animationDelay=Math.random()*2+"s";
+
+    stars.appendChild(st);
+}
+
+/* CORAÇÕES */
+for(let i=0;i<15;i++){
+    let h=document.createElement("div");
+
+    h.className="heart";
+    h.textContent="💗";
+    h.style.left=Math.random()*100+"%";
+    h.style.animationDelay=Math.random()*8+"s";
+
+    hearts.appendChild(h);
+}
+</script>
+
+</body>
+</html>
